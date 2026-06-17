@@ -1,0 +1,18 @@
+% QA orchestration hierarchy
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=4.2cm, level distance=1.6cm},
+  level 2/.style={sibling distance=2.2cm, level distance=1.4cm},
+  every node/.style={draw, rounded corners=2pt, align=center, font=\footnotesize,
+    minimum width=2cm, minimum height=0.7cm}
+]
+  \node[fill=primary!15, draw=primary, font=\bfseries] {QA Super}
+    child { node[fill=accentblue!12] {QA Table} }
+    child { node[fill=accentgreen!12] {QA Bidi} }
+    child { node[fill=accentamber!12] {QA Image} }
+    child { node[fill=lightgray] {QA Code} };
+\end{tikzpicture}
+\caption{היררכיית \eng{QA Skills} לפי דוגמת המרצה: מנהל-על ומומחי תחום}
+\label{fig:qa-hierarchy}
+\end{figure}

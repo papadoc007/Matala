@@ -1,0 +1,90 @@
+\section{MCP: Model Context Protocol}
+
+\eng{Model Context Protocol} (\eng{MCP}) הוא תקן שמגדיר כיצד סוכני \eng{AI}
+מתחברים לשירותים חיצוניים --- מסדי נתונים, מאגרי קבצים, כלי פיתוח ועוד
+\cite{anthropic2024mcp}. ההרצאה מציגה את \eng{MCP} כאלטרנטיבה מודרנית
+לעבודה ישירה עם \eng{API} ו-\eng{Skills} סטטיים.
+
+\input{figures/fig-mcp-comparison}
+
+\subsection{מהו MCP?}
+
+\eng{MCP} הוא ``שרת'' שרץ בנקודת קצה --- במחשב המקומי או אצל ספק התוכנה ---
+ומציע לסוכן רשימת כלים (\eng{tools}), משאבים (\eng{resources}) ותבניות
+פרומפט. הסוכן ``מכיר'' את ה-\eng{MCP} הרשום אצלו (בדומה לרשימת \eng{Skills})
+ומפעיל אותו כשהמשימה מתאימה.
+
+\subsection{MCP מול API ישיר}
+
+בעבודה מול \eng{API} ישיר, המפתח חייב לדעת כתובת, אימות, סכמת בקשות
+ועדכוני גרסה. ב-\eng{MCP}, ספק התוכנה מטפל בשכבה זו; הסוכן מגלה יכולות
+דינמית מהשרת.
+
+\begin{insightbox}
+ההבדל המרכזי מההרצאה: \eng{Skill} סטטי דורש התקנה מחדש כשה-\eng{API}
+משתנה; \eng{MCP} מחובר ``אונליין'' ומתעדכן אוטומטית מול היצרן.
+\end{insightbox}
+
+\subsection{מודל שרת-לקוח}
+
+\eng{MCP} מבוסס על מודל שרת ולקוח, בדומה לגלישה באינטרנט: הסוכן ``גולש''
+לשרת ומבצע פעולות מורשות. אין צורך לדעת כל פרט טכני על מיקום התוכנה ---
+רק את נקודת הקצה של ה-\eng{MCP}.
+
+\subsection{דוגמת תצורה (מושגית)}
+
+\begin{lstlisting}[caption={דוגמת הגדרת MCP בקובץ JSON}]
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./docs"]
+    },
+    "browser": {
+      "command": "cursor-ide-browser",
+      "args": []
+    }
+  }
+}
+\end{lstlisting}
+
+\subsection{MCP בתוך ארכיטקטורת הסוכן}
+
+כפי שהוסבר: הסוכן מכיל פנייה ל-\eng{MCP}. כמו חיפוש \eng{Skills}, הוא
+בוחר את השרת המתאים. בתוך ה-\eng{MCP} עדיין קיים \eng{API} שמדבר עם
+ה-\eng{SDK} --- אך הסוכן לא חשוף לפרטים אלה.
+
+\agenttable{
+\caption{השוואה: \eng{Skill}+\eng{API} מול \eng{MCP}}
+\label{tab:mcp-vs-skill}
+\begin{tabular}{@{}p{3cm}p{4.5cm}p{4.5cm}@{}}
+\toprule
+\textbf{מאפיין} & \textbf{Skill + API} & \textbf{MCP} \\
+\midrule
+מיקום & מקומי, סטטי & שרת מרוחק/מקומי \\
+עדכון & ידני & אוטומטי \\
+גילוי יכולות & מתוך קובץ Skill & מתוך שרת \\
+תקשורת בין סוכנים & שפה חופשית & שפה חופשית \\
+\bottomrule
+\end{tabular}
+}
+
+\subsection{מגבלות ואבטחה}
+
+\begin{itemize}[rightmargin=2em]
+  \item הרשאות --- אילו כלי \eng{MCP} מורשים לסוכן?
+  \item אימות --- מפתחות \eng{API} וסודות לא בפרומפט.
+  \item זמינות --- תלות ברשת ובשרת חיצוני.
+  \item תאימות --- לא כל מוצר תומך ב-\eng{MCP} עדיין.
+\end{itemize}
+
+\begin{warningbox}
+חשיפת \eng{MCP} עם גישה לקבצים מערכת או דפדפן דורשת הגדרת הרשאות
+זהירה --- סוכן שגוי עלול למחוק קבצים או לשלוח מידע רגיש.
+\end{warningbox}
+
+\subsection{קשר לפרויקט הנוכחי}
+
+ב-\eng{Cursor}, שרתי \eng{MCP} כמו \eng{cursor-ide-browser} ו-\eng{playwright}
+מאפשרים לסוכן לפעול בסביבת הפיתוח. מטלה 04 עצמה מדגימה עבודה טקסטואלית
+(\LaTeX) --- גישה עדיפה על סימולציית \eng{GUI} לעריכת מסמכים.

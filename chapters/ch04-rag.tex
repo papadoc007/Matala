@@ -1,0 +1,85 @@
+\section{RAG: Retrieval-Augmented Generation}
+
+\eng{Retrieval-Augmented Generation} (\eng{RAG}) הוא מנגנון שמאפשר לסוכן
+לגשת לידע חיצוני מבלי לאמן מחדש את המודל \cite{lewis2020rag}. בהרצאה
+הושווה ה-\eng{RAG} ל``דיסק קשיח'': מאגר גדול המסודר וקטורית לחיפוש סמנטי.
+
+\input{figures/fig-rag-flow}
+
+\subsection{עקרון הפעולה}
+
+כאשר משתמש שואל שאלה:
+\begin{enumerate}[rightmargin=2em]
+  \item הפרומפט מומר לוקטור (הטמעה --- \eng{embedding}).
+  \item מתבצע חיפוש במאגר הוקטורים באמצעות מרחק קוסינוס (או מטריקה דומה).
+  \item המסמכים הקרובים ביותר סמנטית נשלפים מהמאגר.
+  \item המסמכים מצורפים לחלון ההקשר יחד עם הפרומפט.
+  \item ה-\eng{LLM} מייצר תשובה המבוססת על המידע שנשלף.
+\end{enumerate}
+
+דוגמה מההרצאה: שאלה על בירת ישראל $\rightarrow$ חיפוש בוויקיפדיה ובמסמכים
+רלוונטיים $\rightarrow$ הזרקה ל-\eng{Context Window} $\rightarrow$ תשובה מדויקת.
+
+\subsection{מדוע לא לאמן מחדש?}
+
+אימון מחדש של \eng{LLM} על מאגר ארגוני הוא יקר, איטי ומסובך לתחזוקה.
+\eng{RAG} מאפשר:
+\begin{itemize}[rightmargin=2em]
+  \item עדכון ידע בזמן אמת (הוספת מסמכים למאגר).
+  \item ציטוט מקורות (איזה מסמך שימש בתשובה).
+  \item שליטה בהרשאות (מאגרים נפרדים לפי מחלקה).
+\end{itemize}
+
+\subsection{דוגמת זרימה (פסאודו-קוד)}
+
+\begin{lstlisting}[language=Python,caption={Pipeline בסיסי של RAG}]
+def rag_answer(question, vector_db, llm):
+    q_vec = embed(question)
+    docs = vector_db.search(q_vec, top_k=5)
+    context = "\n".join(docs)
+    prompt = f"Context:\n{context}\n\nQuestion: {question}"
+    return llm.generate(prompt)
+\end{lstlisting}
+
+\begin{warningbox}
+\eng{RAG} אינו מבטיח אמיתות --- אם המאגר מכיל מידע שגוי, המודל עלול
+להמחיש אותו בביטחון. נדרשת בקרת איכות על המקורות ואימות תשובות.
+\end{warningbox}
+
+\subsection{רכיבי מערכת RAG}
+
+\agenttable{
+\caption{רכיבי מערכת \eng{RAG} טיפוסית}
+\label{tab:rag-components}
+\begin{tabular}{@{}p{3cm}p{4.5cm}p{4.5cm}@{}}
+\toprule
+\textbf{רכיב} & \textbf{תפקיד} & \textbf{דוגמה} \\
+\midrule
+Ingestion & פיצול ואינדוקס מסמכים & \eng{chunk} של 512 טוקנים \\
+Embedding & המרה לוקטור & \eng{text-embedding-3-small} \\
+Vector DB & אחסון וחיפוש & \eng{Chroma}, \eng{Pinecone} \\
+Retriever & בחירת קטעים & \eng{top-k}, סף דמיון \\
+Generator & תשובה סופית & \eng{GPT-4}, \eng{Claude} \\
+\bottomrule
+\end{tabular}
+}
+
+\subsection{קשר לקורס}
+
+במטלות קודמות בקורס (למשל תרגום רב-שלבי) נעשה שימוש בהשוואת וקטורים
+למדידת סטייה סמנטית. \eng{RAG} משתמש באותו עקרון --- מרחק וקטורי ---
+למטרה אחרת: שליפת ידע במקום הערכת דמיון בין תרגומים.
+
+\subsection{מגבלות}
+
+\begin{itemize}[rightmargin=2em]
+  \item איכות התלויה בגודל ואיכות ה-\eng{chunk}.
+  \item חיפוש שגוי אם השאלה מנוסחת רחוק מהמסמכים.
+  \item עלות הטמעה ואחסון למאגרים גדולים.
+  \item צורך באבטחת מידע --- דליפת מסמכים רגישים לפרומפט.
+\end{itemize}
+
+\begin{insightbox}
+בפרק 13 נראה כיצד \eng{RAG} יכול לתמוך בחקירת \eng{Ransomware} על ידי
+אינדוקס דוחות \eng{CTI}, הערות כופר ו-\eng{IOCs} היסטוריים.
+\end{insightbox}

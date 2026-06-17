@@ -1,0 +1,81 @@
+\section{LaTeX, LuaLaTeX ויצירת PDF מקצועי}
+
+\LaTeX{} הוא שפת סימון לייצור מסמכים מקצועיים \cite{lamport1994latex}. במסגרת
+ההרצאה הוצג ככלי מרכזי לעידן הסוכנים: מסמך שנכתב בטקסט בלבד, ללא גרירת
+עכבר, מתאים להפעלה אוטומטית על ידי \eng{AI}.
+
+\subsection{מדוע LaTeX?}
+
+\begin{itemize}[rightmargin=2em]
+  \item \textbf{רפטביליות} --- אותו קוד מייצר אותו \eng{PDF} בכל הרצה.
+  \item \textbf{הפרדה} --- תוכן (\texttt{.tex}) נפרד מעיצוב (\texttt{.cls}).
+  \item \textbf{מסמכים גדולים} --- תוכן עניינים, ביבליוגרפיה, הפניות אוטומטיות.
+  \item \textbf{מתמטיקה} --- נוסחאות ברמה ש-\eng{Word} מתקשה להשיג.
+  \item \textbf{סוכן-ידידותי} --- פקודות טקסט במקום קואורדינטות עכבר.
+\end{itemize}
+
+המרצה הצהיר במפורש: ``טעות פטאלית לעבוד בוורד'' למסמכים רציניים וגדולים.
+
+\subsection{סוגי קבצי מסמך}
+
+ההרצאה סקרה משפחת מסמכי טקסט:
+\begin{description}[rightmargin=2em, style=nextline]
+  \item[\texttt{.txt}] טקסט שטוח --- ללא עיצוב, מתאים לקוד וסקילים.
+  \item[\texttt{.md}] \eng{Markdown} --- כותרות, הדגשות, תמונות; פופולרי לתיעוד.
+  \item[\texttt{.tex}] \LaTeX{} --- מסמכים אקדמיים ומקצועיים ל-\eng{PDF}.
+  \item[\texttt{.html}] דפי אינטרנט --- ניתן להמיר ל-\LaTeX{} על ידי סוכן.
+\end{description}
+
+\subsection{LuaLaTeX --- הקומפיילר}
+
+\eng{LuaLaTeX} הוא מנוע קומפילציה מבוסס \eng{Lua}, התומך ב-\eng{Unicode}
+ובפונטים מודרניים (דרך \eng{fontspec}) \cite{polyglossia2023}. לעברית
+זה קריטי: \eng{pdfLaTeX} אינו מספיק לשילוב עברית-אנגלית איכותי.
+
+תהליך הקומפילציה:
+\begin{enumerate}[rightmargin=2em]
+  \item כותבים \texttt{main.tex} + \texttt{.cls} + \texttt{.bib}.
+  \item מריצים \texttt{lualatex main.tex}.
+  \item מריצים \texttt{bibtex main} (אם יש ביבליוגרפיה).
+  \item מריצים \texttt{lualatex} פעמיים נוספות (תוכן עניינים והפניות).
+\end{enumerate}
+
+\begin{lstlisting}[caption={דוגמת שימוש בפקודות התבנית}]
+\documentclass{agentic-ai-template}
+\begin{document}
+\maketitlepage
+שילוב עברית עם \eng{API} ו-\eng{RAG}.
+\begin{notebox}
+תיבת מידע מעוצבת מהקובץ \texttt{.cls}
+\end{notebox}
+\end{document}
+\end{lstlisting}
+
+\subsection{מבנה פרויקט לסוכן}
+
+לפי דוגמת המרצה:
+\begin{itemize}[rightmargin=2em]
+  \item \texttt{main.tex} --- קובץ ראשי, יכול לכלול \texttt{\textbackslash input\{\}}.
+  \item \texttt{agentic-ai-template.cls} --- כל העיצוב והפקודות המותאמות.
+  \item \texttt{references.bib} --- מקורות בפורמט \eng{BibTeX}.
+  \item \texttt{sources/} --- חומר גלם (תמלול, סיכומים).
+\end{itemize}
+
+\subsection{יתרונות לעבודה עם סוכן AI}
+
+\begin{insightbox}
+סוכן שכותב \LaTeX{} מייצר \eng{diff} קריא, ניתן לגרסה ב-\eng{Git}, וניתן
+לתיקון נקודתי. מסמך \eng{Word} שנוצר על ידי סוכן לעיתים ``שובר'' עיצוב
+בלתי נראה עד להדפסה.
+\end{insightbox}
+
+\subsection{מגבלות}
+
+\begin{itemize}[rightmargin=2em]
+  \item עקומת למידה --- שגיאות קומפילציה דורשות הבנה בסיסית.
+  \item עברית-\eng{BiDi} --- בעיות RTL/LTR דורשות תבנית מותאמת.
+  \item התקנת חבילות --- \eng{MiKTeX}/\eng{TeX Live} נדרשים מקומית.
+\end{itemize}
+
+פרקים 10--11 יראו כיצד \eng{CLS} וסקילי \eng{QA} פותרים חלק מהמגבלות
+הללו בצורה רפטבילית.

@@ -1,0 +1,19 @@
+% Software communication stack
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  layer/.style={draw=secondary, fill=white, minimum width=8.5cm,
+    minimum height=0.85cm, align=center, font=\small}
+]
+  \node[layer, fill=accentamber!12] (api) at (0,3.2) {\eng{API} --- חשיפה חיצונית לתוכנה};
+  \node[layer, fill=accentblue!10] (cli) at (0,2.2) {\eng{CLI} --- ממשק טקסטואלי בטרמינל};
+  \node[layer, fill=accentgreen!10] (gui) at (0,1.2) {\eng{GUI} --- ממשק גרפי למשתמש אנושי};
+  \node[layer, fill=primary!10] (sdk) at (0,0.2) {\eng{SDK} --- שכבת פיתוח מעל הפונקציות};
+  \node[layer, fill=lightgray] (fn) at (0,-0.8) {פונקציות תוכנה --- ליבת הביצוע};
+  \foreach \a/\b in {fn/sdk, sdk/gui, sdk/cli, sdk/api}{
+    \draw[-{Stealth[length=2mm]}, thick, primary] (\a.north) -- (\b.south);
+  }
+\end{tikzpicture}
+\caption{מחסנית תקשורת בין תוכנות: פונקציות, \eng{SDK}, \eng{GUI}/\eng{CLI} ו-\eng{API}}
+\label{fig:software-stack}
+\end{figure}

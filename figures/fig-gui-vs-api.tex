@@ -1,0 +1,28 @@
+% GUI agent vs API agent
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar,
+  bar width=18pt,
+  ymin=0, ymax=10,
+  ylabel={מדד יחסי (גבוה = פחות יעיל)},
+  symbolic x coords={GUI Agent, API/Text Agent},
+  xtick=data,
+  xticklabel style={font=\small},
+  legend style={at={(0.5,-0.22)},anchor=north, legend columns=3, font=\footnotesize},
+  width=11cm, height=6cm,
+  nodes near coords,
+  nodes near coords style={font=\tiny}
+]
+\addplot[fill=accentamber!70] coordinates {(GUI Agent,8) (API/Text Agent,2)};
+\addlegendentry{עלות טוקנים}
+\addplot[fill=accentblue!60] coordinates {(GUI Agent,9) (API/Text Agent,3)};
+\addlegendentry{מורכבות}
+\addplot[fill=accentgreen!60] coordinates {(GUI Agent,7) (API/Text Agent,2)};
+\addlegendentry{זמן ביצוע}
+\end{axis}
+\end{tikzpicture}
+\caption{סוכן דפדפן מול סוכן טקסט/\eng{API}: עלות, מורכבות וזמן (אילוסטרציה לפי ההרצאה)}
+\label{fig:gui-vs-api}
+\end{figure}

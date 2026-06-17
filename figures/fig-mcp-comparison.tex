@@ -1,0 +1,23 @@
+% MCP vs Skill vs API
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=3pt, minimum width=2.5cm, minimum height=1.6cm,
+    align=center, font=\footnotesize},
+  arr/.style={-{Stealth[length=2mm]}, thick}
+]
+  \node[box, fill=accentblue!12, draw=accentblue] (agent) at (0,0) {\eng{AI Agent}};
+  \node[box, fill=lightgray, draw=secondary] (skill) at (-4,-2.2) {\eng{Skill}\\סטטי מקומי};
+  \node[box, fill=accentamber!12, draw=accentamber] (api) at (0,-2.2) {\eng{API}\\נקודת קצה};
+  \node[box, fill=accentgreen!12, draw=accentgreen] (mcp) at (4,-2.2) {\eng{MCP Server}\\מחובר מרוחק};
+  \node[box, fill=primary!8, draw=primary] (sdk) at (0,-4.2) {\eng{SDK / Software}};
+  \draw[arr, accentblue] (agent) -- (skill);
+  \draw[arr, accentamber] (agent) -- (api);
+  \draw[arr, accentgreen] (agent) -- (mcp);
+  \draw[arr, secondary] (skill) -- (sdk);
+  \draw[arr, secondary] (api) -- (sdk);
+  \draw[arr, secondary] (mcp) -- (sdk);
+\end{tikzpicture}
+\caption{השוואה מושגית: סוכן יכול לגשת ליכולות תוכנה דרך \eng{Skill}, \eng{API} או \eng{MCP}}
+\label{fig:mcp-comparison}
+\end{figure}

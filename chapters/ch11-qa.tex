@@ -1,0 +1,88 @@
+\section{QA Skills ובקרת איכות}
+
+ייצור \eng{PDF} אוטומטי במסמכים ארוכים (30--50 עמודים) מייצר באגים חוזרים:
+טבלאות שבורות, עברית-אנגלית מעורבבת, תמונות חורגות מהשוליים. המרצה
+הציג מערכת \eng{QA Skills} היררכית לטיפול בכך --- מודל שניתן ליישם
+בכל פרויקט סוכן.
+
+\input{figures/fig-qa-hierarchy}
+
+\subsection{פילוסופיית QA}
+
+כאשר מתגלה בעיה:
+\begin{enumerate}[rightmargin=2em]
+  \item \textbf{אל תתקן סתם} --- בקש הסבר מה קרה.
+  \item החלט: האם הפתרון שייך ל-\eng{Skill} (שפה טבעית) או ל-\eng{CLS} (טכני)?
+  \item עדכן את השכבה המתאימה.
+  \item הרץ מחדש ובדוק שהתיקון כללי.
+\end{enumerate}
+
+\subsection{מבנה היררכי}
+
+לפי דוגמת המרצה:
+\begin{description}[rightmargin=2em, style=nextline]
+  \item[QA Super] ``מנכ''ל'' --- מכיר את כל סוגי הבעיות, מפעיל מומחים.
+  \item[QA Table] מחלקת טבלאות --- יישור, עמודות, עברית-אנגלית בטבלה.
+  \item[QA Bidi] כיווניות --- RTL/LTR, מספרים, נוסחאות.
+  \item[QA Image] תמונות --- גבולות, כיתובים, מסגרות.
+  \item[QA Code] קטעי קוד --- רקע, גלישת שורות, התנגשויות.
+\end{description}
+
+כל ``מחלקה'' היא \eng{Skill} (או סוכן עם \eng{Skill} ייעודי) עם כללי
+זיהוי (\eng{detector}) ותיקון (\eng{fixer}).
+
+\subsection{Detector ו-Fixer}
+
+\begin{itemize}[rightmargin=2em]
+  \item \textbf{Detector} --- רץ על \eng{PDF} או על קוד מקור, מדווח בעיות
+    (למשל: ``הטבלה זזה ימינה'').
+  \item \textbf{Fixer} --- מקבל דיווח, יודע לתקן (למשל: עדכון הגדרות
+    עמודה ב-\eng{CLS}).
+\end{itemize}
+
+\subsection{דוגמת Skill QA-Table}
+
+\begin{lstlisting}[caption={קטע מ-QA Skill לטבלאות}]
+# QA-Table Skill
+Detect:
+- Tables aligned to wrong margin in RTL documents
+- Column order reversed (Hebrew headers)
+Fix:
+- Apply \begin{RTL} inside table environment
+- Use p{} columns with \RaggedLeft
+- Update agentic-ai-template.cls @AtBeginEnvironment{table}
+Never: patch only the single table in main.tex
+\end{lstlisting}
+
+\subsection{יתרונות מערכת QA}
+
+\agenttable{
+\caption{רכיבי מערכת \eng{QA} למסמכי \eng{PDF}}
+\label{tab:qa-system}
+\begin{tabular}{@{}p{3cm}p{4.5cm}p{4.5cm}@{}}
+\toprule
+\textbf{רכיב} & \textbf{תפקיד} & \textbf{פלט} \\
+\midrule
+Detector & זיהוי חריגה & דוח בעיות \\
+Fixer & תיקון ממוקד & \eng{diff} ב-\eng{CLS}/\eng{Skill} \\
+QA Super & תיאום & אישור לפני הגשה \\
+Compile & אימות & \eng{PDF} סופי \\
+\bottomrule
+\end{tabular}
+}
+
+\subsection{יישום במטלה 04}
+
+רשימת בדיקות לפני הגשה:
+\begin{itemize}[rightmargin=2em]
+  \item קומפילציה ללא שגיאות (\texttt{compile.ps1}).
+  \item תוכן עניינים, רשימת איורים וטבלאות מעודכנים.
+  \item ביבליוגרפיה עם ציטוטים [1], [2] בגוף המסמך.
+  \item לפחות 30 עמודים, 5 טבלאות, 5 איורים.
+  \item עברית-אנגלית ללא שבירות בולטות.
+\end{itemize}
+
+\begin{insightbox}
+\eng{QA Skills} הם ``בטיחות בדם נקנית'' --- כל שורה בקובץ ה-\eng{Skill}
+מייצגת באג אמיתי מהעבר. עם הזמן הספרייה הופכת יקרת ערך.
+\end{insightbox}

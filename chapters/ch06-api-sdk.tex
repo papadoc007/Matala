@@ -1,0 +1,73 @@
+\section{תקשורת בין תוכנות: SDK, GUI, CLI, API}
+
+תוכנות מודרניות נבנות בשכבות. הבנת השכבות חיונית לתכנון סוכנים שצריכים
+לדבר עם מערכות קיימות --- בין אם דרך ממשק אנושי או ישירות דרך ממשק מכונה.
+
+\input{figures/fig-software-stack}
+
+\subsection{שכבת הפונקציות}
+
+בתחתית נמצאות פונקציות התוכנה: חישוב, חיפוש, כתיבה לדיסק. שכבה זו אינה
+נגישה ישירות למשתמש הקצה --- היא ליבת הלוגיקה.
+
+\subsection{SDK --- ערכת פיתוח}
+
+\eng{SDK} (\eng{Software Development Kit}) עוטף את הפונקציות בממשק נוח
+למפתחים. כל פעולה חיצונית בתוכנה אמורה לעבור דרך ה-\eng{SDK}. כשבונים
+\eng{GUI} או \eng{CLI}, הם קוראים ל-\eng{SDK} ולא ישירות לפונקציות גולמיות.
+
+\subsection{GUI --- ממשק גרפי}
+
+\eng{GUI} (\eng{Graphical User Interface}) מיועד לבני אדם: תפריטים, חלונות,
+גרירה בעכבר. דוגמאות: PowerPoint, Excel, דפדפן. סוכן שעובד דרך \eng{GUI}
+מדמה משתמש אנושי --- לוחץ, מצלם מסך, מקליד --- וזה יקר בטוקנים ובזמן.
+
+\subsection{CLI --- ממשק שורת פקודה}
+
+\eng{CLI} (\eng{Command Line Interface}) הוא תפריט טקסטואלי בטרמינל:
+לחיצה על \eng{A} מבצעת פעולה אחת, \eng{B} --- אחרת. פשוט, מהיר וידידותי
+לסוכנים. ההרצאה מדגישה מעבר מעבודה ב-\eng{GUI} לעבודה בטרמינל ובטקסט.
+
+\subsection{API --- חשיפה לעולם החיצון}
+
+\eng{API} (\eng{Application Programming Interface}) מאפשר לתוכנה חיצונית
+לבצע פעולות מורשות. כשתוכנה א' רוצה לדבר עם תוכנה ב', הן מתקשרות דרך
+\eng{API} --- בתנאי שיודעים לתכנת את החיבור.
+
+\begin{lstlisting}[language=Java,caption={דוגמת בקשת API (JSON)}]
+POST /api/v1/documents/compile HTTP/1.1
+Content-Type: application/json
+
+{
+  "source": "main.tex",
+  "engine": "lualatex",
+  "runs": 3
+}
+\end{lstlisting}
+
+\agenttable{
+\caption{השוואת דרכי גישה לתוכנה}
+\label{tab:access-methods}
+\begin{tabular}{@{}p{2cm}p{2.5cm}p{3.5cm}p{3.5cm}@{}}
+\toprule
+\textbf{שיטה} & \textbf{קהל יעד} & \textbf{יתרון} & \textbf{חיסרון לסוכן} \\
+\midrule
+\eng{GUI} & אדם & אינטואיטיבי & טוקנים, איטיות \\
+\eng{CLI} & מפתח/סוכן & מהיר, טקסט & דורש למידה \\
+\eng{API} & מערכות & אוטומציה מלאה & דורש תיעוד \\
+\eng{SDK} & מפתח פנימי & שליטה מלאה & לא חשוף תמיד \\
+\bottomrule
+\end{tabular}
+}
+
+\subsection{Skill כעטיפה ל-API}
+
+כפי שנלמד בהרצאה, ניתן לעטוף \eng{API} ב-\eng{Skill} ולאפשר ``\eng{AI via API}''
+--- שפה חופשית שמתורגמת לקריאות מובנות. כך תוכנה א' ותוכנה ב' יכולות
+לתקשר דרך סוכנים בלי שהמפתח יזכור כל פרמטר.
+
+\subsection{כיוון עתידי}
+
+החזון מההרצאה: מערכות הפעלה מבוססות \eng{AI} שבהן המשתמש מדבר בשפה
+חופשית והמערכת בוחרת כלים (\eng{Excel}, Python, דפדפן) בשקיפות. למימוש
+חזון זה נדרש שרוב התוכנות יחשפו יכולות בטקסט/\eng{API}, לא רק ב-\eng{GUI}.

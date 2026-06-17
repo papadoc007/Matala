@@ -1,0 +1,53 @@
+\section{סיכום ומסקנות}
+
+מסמך זה סקר את ארכיטקטורת סוכני \eng{AI} כפי שנלמדה בקורס \eng{AI Agents},
+הרצאה 07, והרחיב אותה ליישום קצר בתחום הסייבר. להלן סיכום המסקנות העיקריות.
+
+\subsection{ממצאים מרכזיים}
+
+\begin{enumerate}[rightmargin=2em]
+  \item \textbf{שכבות} --- סוכן בנוי על \eng{Software}, \eng{Skill} ו-\eng{Agent};
+    הבחנה זו מנחה היכן למקם לוגיקה קבועה לעומת שפה טבעית.
+  \item \textbf{ידע} --- \eng{LLM} אינו זוכר; \eng{Context Window} ו-\eng{RAG}
+    מספקים זיכרון עבודה ואחסון חיצוני.
+  \item \textbf{חיבוריות} --- \eng{API}, \eng{SDK}, \eng{CLI} ו-\eng{MCP} מאפשרים
+    לסוכנים לפעול בתוכנות; \eng{MCP} מציע עדכון דינמי לעומת \eng{Skill} סטטי.
+  \item \textbf{ממשק} --- סוכן \eng{GUI} יקר ואיטי; עבודה טקסטואלית ו-\eng{LuaLaTeX}
+    עדיפה למסמכים רפטביליים.
+  \item \textbf{איכות} --- \eng{CLS} וסקילי \eng{QA} הופכים תיקונים לכלליים
+    ולא חד-פעמיים.
+  \item \textbf{קנה מידה} --- אורכוסטרציה מאזנת בין סוכן יחיד (פשטות) לריבוי
+    סוכנים (מהירות).
+\end{enumerate}
+
+\subsection{תרומת מטלה 04}
+
+מטלה 04 מדגימה את כל העקרונות בפרויקט אחד:
+\begin{itemize}[rightmargin=2em]
+  \item \texttt{PRD.md} --- הגדרת דרישות לסוכן (מטא-מיומנות הקורס).
+  \item \texttt{agentic-ai-template.cls} --- רפטביליות עיצובית.
+  \item \texttt{main.tex} --- תוכן מלא בעברית עם מונחי \eng{English}.
+  \item \texttt{references.bib} --- ביבליוגרפיה בפורמט \eng{IEEE}.
+  \item \texttt{compile.ps1} --- תהליך בנייה שחוזר על עצמו.
+\end{itemize}
+
+\subsection{כיווני המשך}
+
+\begin{itemize}[rightmargin=2em]
+  \item הרחבת ספריית \eng{QA Skills} לפי באגים אמיתיים בקומפילציה.
+  \item חיבור \eng{MCP} למאגרי \eng{CTI} מורשים בפרויקט גמר.
+  \item ניסוי אורכוסטרציה: סוכן תוכן + סוכן \eng{CLS} + סוכן \eng{QA} במקביל.
+  \item מעבר מתמלול שיעור ל-\eng{RAG} פנימי לשאילתות בקורס.
+\end{itemize}
+
+\subsection{מילה אחרונה}
+
+עידן סוכני ה-\eng{AI} מחייב לא רק פרומפטים טובים, אלא \textbf{ארכיטקטורה}:
+שכבות, ידע, כלים, תבניות ובקרת איכות. מי ששולט בכלי טקסט כמו \LaTeX{}
+ובתבנית \eng{CLS} יכול להפוך את הסוכן ממחולל טיוטות למכונת הפקת מסמכים
+מקצועיים --- בקורס, בארגון ובחקירות סייבר.
+
+\begin{notebox}
+מקור עיקרי: \texttt{sources/transcript-lecture07.txt}. מקורות נוספים
+ברשימת הביבליוגרפיה --- יש לאמת כתובות ופרטים לפני הגשה סופית.
+\end{notebox}

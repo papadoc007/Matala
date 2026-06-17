@@ -1,0 +1,19 @@
+% Three-layer agent architecture
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  layer/.style={draw=primary, fill=primary!8, rounded corners=4pt,
+    minimum width=9cm, minimum height=1.2cm, align=center, font=\small}
+]
+  \node[layer, fill=accentgreen!15, draw=accentgreen] (agent) at (0,2.4)
+    {\textbf{שכבת Agent}\\\eng{LLM + Memory + Context + RAG + Tools + Skills}};
+  \node[layer, fill=accentblue!12, draw=accentblue] (skill) at (0,0.8)
+    {\textbf{שכבת Skill}\\עטיפת שפה טבעית מעל קוד תבניתי};
+  \node[layer, fill=lightgray, draw=secondary] (soft) at (0,-0.8)
+    {\textbf{שכבת Software}\\פונקציות ותהליכים קבועים};
+  \draw[-{Stealth[length=2.5mm]}, thick, secondary] (soft.north) -- (skill.south);
+  \draw[-{Stealth[length=2.5mm]}, thick, secondary] (skill.north) -- (agent.south);
+\end{tikzpicture}
+\caption{שלוש שכבות הסוכן לפי חומר ההרצאה: תוכנה, סקיל וסוכן}
+\label{fig:three-layers}
+\end{figure}

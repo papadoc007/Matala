@@ -1,0 +1,75 @@
+\section{Tools, Skills ו-Agent Skills}
+
+סוכן \eng{AI} מבדיל בין \textbf{יכולת ביצוע} (\eng{Tool}) לבין \textbf{מעטפת
+ידע והנחיה} (\eng{Skill}). הבנה נכונה של ההבחנה מאפשרת לבנות מערכות מודולריות
+שניתן לתחזק ולהרחיב \cite{yao2023react,openai2024agents}.
+
+\subsection{Tools --- כלי ביצוע}
+
+\eng{Tools} הם התוכנות והפונקציות שהסוכן מפעיל: חיפוש באינטרנט, הרצת
+\eng{Python}, קריאת קובץ, קומפילציית \LaTeX{}, שליחת \eng{HTTP}. ה-\eng{LLM}
+לא ``מריץ'' קוד בעצמו --- הוא מחליט \emph{איזה} כלי להפעיל ועם אילו פרמטרים,
+והסביבה מבצעת בפועל.
+
+\subsection{Skills --- קבצי הנחיה}
+
+\eng{Skill} הוא קובץ (לרוב \eng{Markdown}) המגדיר תפקיד, כללים ודוגמאות.
+בתחילת כל \eng{Skill} מופיע \eng{description} שמסביר מתי להשתמש בו. הסוכן
+סורק את רשימת ה-\eng{Skills}, בוחר את הרלוונטיים לפרומפט וטוען את תוכנם
+לחלון ההקשר --- בדומה לבחירת מומחה מספרייה.
+
+\begin{notebox}
+במטלה 02 בקורס נבנו \eng{Skills} נפרדים לכל סוכן תרגום
+(\texttt{skills/en\_to\_fr.md} וכו'). אותו עיקרון חל על ייצור \eng{PDF},
+\eng{QA} וחקירת סייבר.
+\end{notebox}
+
+\subsection{Agent Skills --- סקילים ברמת הסוכן}
+
+\eng{Agent Skills} (כמו ב-\eng{Cursor} או \eng{Claude}) הם מפרטים שניתן
+לשתף בין פרויקטים: הוראות מערכת, תבניות פרומפט וכללי בטיחות. הם מהווים
+\eng{Memory} פרוצדורלי --- ידע שתמיד זמין לסוכן בלי לאחסן אותו בכל שיחה.
+
+\subsection{תהליך בחירת Skill}
+
+לפי ההרצאה, כשמשתמש שואל שאלה:
+\begin{enumerate}[rightmargin=2em]
+  \item ה-\eng{LLM} סורק תיאורי \eng{Skills} זמינים.
+  \item נבחרים \eng{Skills} עם התאמה סמנטית (למשל ``חיפוש באינטרנט'').
+  \item תוכן ה-\eng{Skill} נטען ל-\eng{Context Window}.
+  \item הסוכן מפעיל \eng{Tools} שה-\eng{Skill} מגדיר או מרמז עליהם.
+\end{enumerate}
+
+\subsection{דוגמה: Skill לקומפילציית LaTeX}
+
+\begin{lstlisting}[caption={קטע מתוך Skill לייצור PDF}]
+# LaTeX Compile Skill
+When the user requests a PDF document:
+1. Use agentic-ai-template.cls (do not inline styles in main.tex)
+2. Compile with: lualatex -> bibtex -> lualatex x2
+3. Fix recurring RTL issues in the .cls file, not per-document
+4. Verify TOC and bibliography before delivery
+\end{lstlisting}
+
+\subsection{Skills מול Tools --- סיכום}
+
+\agenttable{
+\caption{הבחנה בין \eng{Tool} ל-\eng{Skill}}
+\label{tab:tools-skills}
+\begin{tabular}{@{}p{2.5cm}p{4.5cm}p{4.5cm}@{}}
+\toprule
+ & \textbf{Tool} & \textbf{Skill} \\
+\midrule
+מהות & קוד רץ & הנחיות טקסט \\
+מיקום & \eng{src/}, \eng{MCP} & \texttt{skills/*.md} \\
+שינוי & מפתח תוכנה & מומחה תחום \\
+דוגמה & \eng{vector\_compare.py} & \eng{QA-Table.md} \\
+\bottomrule
+\end{tabular}
+}
+
+\begin{insightbox}
+\eng{ReAct} \cite{yao2023react} משלב חשיבה (\eng{Reasoning}) ופעולה
+(\eng{Acting}) --- המודל כותב מחשבות, בוחר כלי, מקבל תוצאה וחוזר חלילה.
+זהו הבסיס לרב-סוכנים מודרניים.
+\end{insightbox}

@@ -1,0 +1,62 @@
+\documentclass{agentic-ai-template}
+
+\title{ארכיטקטורת סוכני AI}
+\author{בר אילן}
+\date{מטלה 04 --- קורס AI Agents}
+
+\begin{document}
+
+\maketitlepage
+
+\begin{hebrewabstract}
+מסמך זה מסכם את ארכיטקטורת סוכני בינה מלאכותית כפי שנלמדה בהרצאה 07
+בקורס \eng{AI Agents}: שלוש שכבות הסוכן (\eng{Software}, \eng{Skill},
+\eng{Agent}), מודל שפה גדול וחלון הקשר, \eng{RAG}, כלים וסקילים,
+תקשורת בין תוכנות (\eng{SDK}, \eng{GUI}, \eng{CLI}, \eng{API}),
+פרוטוקול \eng{MCP}, מגבלות סוכני דפדפן, יצירת \eng{PDF} באמצעות
+\eng{LuaLaTeX} ותבניות \eng{CLS}, בקרת איכות (\eng{QA Skills}),
+ואורכוסטרציה של ריבוי סוכנים. המסמך כולל פרק יישומי קצר על
+\eng{CTI}, \eng{OSINT} וחקירת \eng{Ransomware}. המקור העיקרי לתוכן
+הוא תמלול ההרצאה; הביבליוגרפיה משלימה במקורות משניים מאומתים.
+\textbf{מילות מפתח:} סוכן \eng{AI}, \eng{RAG}, \eng{MCP}, \eng{LaTeX},
+רפטביליות, \eng{CTI}.
+\end{hebrewabstract}
+
+\begin{englishabstract}
+This document summarizes agentic AI architecture as taught in Lecture 07
+of the AI Agents course: the three-layer model (Software, Skill, Agent),
+large language models and context windows, retrieval-augmented generation,
+tools and skills, inter-application communication (SDK, GUI, CLI, API),
+the Model Context Protocol, limitations of browser-based GUI agents,
+professional PDF production with LuaLaTeX and custom CLS templates,
+QA skills, and multi-agent orchestration. A short applied chapter
+covers CTI, OSINT, and ransomware investigation workflows. Primary
+source: lecture transcript; bibliography supplements with verified references.
+\textbf{Keywords:} AI agent, RAG, MCP, LaTeX, reproducibility, CTI.
+\end{englishabstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+
+\input{chapters/ch01-intro}
+\input{chapters/ch02-layers}
+\input{chapters/ch03-llm-memory}
+\input{chapters/ch04-rag}
+\input{chapters/ch05-tools-skills}
+\input{chapters/ch06-api-sdk}
+\input{chapters/ch07-mcp}
+\input{chapters/ch08-gui-limits}
+\input{chapters/ch09-latex}
+\input{chapters/ch10-cls-repro}
+\input{chapters/ch11-qa}
+\input{chapters/ch12-orchestration}
+\input{chapters/ch13-cti}
+\input{chapters/ch14-integrative}
+\input{chapters/ch15-conclusions}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

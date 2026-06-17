@@ -1,0 +1,86 @@
+\section{יישום בעולם הסייבר: CTI, OSINT וחקירת אירועי Ransomware}
+
+פרק זה מדגים כיצד עקרונות ארכיטקטורת הסוכן --- \eng{RAG}, \eng{Skills},
+\eng{Tools}, \eng{MCP} ואורכוסטרציה --- יכולים לתמוך ב-\eng{Cyber Threat
+Intelligence} (\eng{CTI}), \eng{OSINT} וחקירת אירועי \eng{Ransomware}.
+הדגמה \textbf{מושגית}; אין כאן מערכת \eng{RAG} חיה או סריקת אינטרנט אמיתית.
+
+\subsection{הקשר: Ransomware ו-CTI}
+
+\eng{Ransomware} הוא תוכנת כופר שמצפינה נתונים ודורשת תשלום. חוקר איומים
+צריך לאסוף \eng{IOCs} (\eng{Indicators of Compromise}), לנתח הערות כופר,
+להצליב עם מאגרי \eng{MITRE ATT\&CK} \cite{mitre2024attack} ולשתף מודיעין
+עם הצוות \cite{nist2018cti}.
+
+\subsection{ארכיטקטורת סוכן לחקירה}
+
+\begin{enumerate}[rightmargin=2em]
+  \item \textbf{סוכן איסוף} --- \eng{Skill} ל-\eng{OSINT}: קריאת דוחות, לוגים,
+    הערות כופר (טקסט). כלים: קריאת קבצים, \eng{API} למאגרי מידע מורשים.
+  \item \textbf{סוכן ניתוח} --- \eng{RAG} על מאגר פנימי: דוחות קודמים,
+    \eng{IOCs} היסטוריים, טכניקות \eng{ATT\&CK}.
+  \item \textbf{סוכן דיווח} --- ייצור \eng{PDF} מקצועי ב-\LaTeX{} מתבנית
+    \eng{CLS} ארגונית (כמו במטלה 04).
+  \item \textbf{QA Super} --- בודק עקביות טבלאות \eng{IOC}, עברית-אנגלית
+    בשמות דומיינים, וקישורים בביבליוגרפיה.
+\end{enumerate}
+
+\subsection{תרחיש לדוגמה}
+
+\textbf{אירוע:} זיהוי קובץ חשוד \texttt{invoice\_2026.exe} והודעת כופר
+\texttt{README\_DECRYPT.txt}.
+
+הסוכן מבצע:
+\begin{itemize}[rightmargin=2em]
+  \item חילוץ hash (\eng{SHA-256}), כתובות \eng{IP}, דומיינים מהלוגים.
+  \item שליפה מ-\eng{RAG}: ``האם hash דומה הופיע בעבר?''
+  \item מיפוי לטכניקות \eng{T1486} (נתונים מוצפנים לכופר) ב-\eng{ATT\&CK}.
+  \item הפקת דוח \eng{PDF} עם טבלת \eng{IOCs} וציר זמן.
+\end{itemize}
+
+\agenttable{
+\caption{מיפוי תפקידי סוכן בחקירת \eng{Ransomware}}
+\label{tab:cti-agents}
+\begin{tabular}{@{}p{2.8cm}p{3.5cm}p{3.5cm}p{2.5cm}@{}}
+\toprule
+\textbf{סוכן} & \textbf{Skill} & \textbf{Tool / MCP} & \textbf{פלט} \\
+\midrule
+איסוף & \eng{OSINT-Collect} & קריאת קבצים, \eng{API} & רשימת \eng{IOC} \\
+ניתוח & \eng{CTI-Analyze} & \eng{RAG}, \eng{MITRE} & ממצאים \\
+דיווח & \eng{Report-LaTeX} & \eng{LuaLaTeX} & \eng{PDF} \\
+QA & \eng{QA-Table} & בדיקת \eng{PDF} & אישור \\
+\bottomrule
+\end{tabular}
+}
+
+\subsection{דוגמת RAG ל-CTI}
+
+\begin{lstlisting}[language=Python,caption={שליפת הקשר לחקירת כופר}]
+query = "SHA256 abc123... ransomware family"
+docs = cti_vector_db.search(embed(query), top_k=3)
+# docs may include: past incident reports, MISP entries
+prompt = build_incident_summary(docs, raw_iocs)
+report = llm.generate(prompt)
+\end{lstlisting}
+
+\subsection{שיקולי אבטחה ואתיקה}
+
+\begin{warningbox}
+סוכן \eng{CTI} חייב לפעול במסגרת מדיניות ארגונית: אין סריקת אינטרנט
+ללא הרשאה, אין שיתוף מידע רגיש בפרומפטים לענן ציבורי ללא אנונימיזציה,
+ורישום מלא (\eng{audit log}) לכל פעולה.
+\end{warningbox}
+
+\subsection{מגבלות ההדגמה}
+
+\begin{itemize}[rightmargin=2em]
+  \item המאמר לא מפעיל מערכת אמיתית --- הוא ממחיש עיצוב ארכיטקטוני.
+  \item מקורות \eng{CTI} דורשים אימות מול מאגרים מורשים (\eng{MISP}, \eng{VirusTotal}).
+  \item \eng{OSINT} חייב לעמוד בחוק ובתנאי שימוש של מקורות.
+\end{itemize}
+
+\begin{insightbox}
+העיקרון המחבר לקורס: כמו שמסמך אקדמי ב-\LaTeX{} הוא רפטבילי, כך דוח
+דוח \eng{CTI} מתבנית \eng{CLS} מאפשר לצוותים לשתף פורמט אחיד
+בכל אירוע --- עם \eng{RAG} על ידע היסטורי.
+\end{insightbox}

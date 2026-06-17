@@ -1,0 +1,27 @@
+% RAG retrieval flow
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=1.1cm and 1.4cm,
+  block/.style={draw=primary, fill=lightgray, rounded corners=3pt,
+    minimum width=2.6cm, minimum height=0.9cm, align=center, font=\footnotesize},
+  arr/.style={-{Stealth[length=2mm]}, thick, accentblue}
+]
+  \node[block] (prompt) {שאילתת\\משתמש};
+  \node[block, right=of prompt] (embed) {הטמעה\\וקטורית};
+  \node[block, right=of embed] (search) {חיפוש\\סמנטי};
+  \node[block, below=of search] (docs) {מסמכים\\רלוונטיים};
+  \node[block, left=of docs] (ctx) {\eng{Context}\\\eng{Window}};
+  \node[block, left=of ctx] (llm) {\eng{LLM}};
+  \node[block, below=of llm] (answer) {תשובה};
+  \draw[arr] (prompt) -- (embed);
+  \draw[arr] (embed) -- (search);
+  \draw[arr] (search) -- (docs);
+  \draw[arr] (docs) -- (ctx);
+  \draw[arr] (prompt.south) |- (ctx.west);
+  \draw[arr] (ctx) -- (llm);
+  \draw[arr] (llm) -- (answer);
+\end{tikzpicture}
+\caption{זרימת \eng{RAG}: מהפרומפט לשליפה וקטורית, הזרקה לחלון הקשר ותשובת המודל}
+\label{fig:rag-flow}
+\end{figure}

@@ -1,0 +1,78 @@
+\section{CLS Templates ו-Reproducibility}
+
+קובץ \texttt{.cls} (\eng{document class}) הוא לב העיצוב במסמכי \LaTeX{}.
+המרצה הציג אותו כפרויקט עצמאי שמבטיח שכל מסמך שייצור הסוכן ייראה אחיד
+--- עקרון הרפטביליות (\eng{Reproducibility}).
+
+\subsection{מהו קובץ CLS?}
+
+\eng{document class} מגדיר:
+\begin{itemize}[rightmargin=2em]
+  \item גודל עמוד, שוליים, פונטים (עברית ואנגלית).
+  \item עיצוב כותרות, כותרת עליונה ותחתונה.
+  \item פקודות מותאמות: \texttt{\textbackslash eng}, תיבות מידע, סגנון טבלאות.
+  \item כללים קבועים: קופירייט, מספור, צבעים ארגוניים.
+\end{itemize}
+
+במקום שהסוכן יחזור על אותם הגדרות עיצוב בכל \texttt{main.tex}, הוא טוען:
+\begin{lstlisting}
+\documentclass{agentic-ai-template}
+\end{lstlisting}
+
+\subsection{CLS כ-Tool}
+
+המרצה תיאר את ה-\eng{CLS} ככלי (\eng{tool}): ניתן להגדיר בו פונקציות
+\LaTeX{} חדשות --- למשל נוסחאות במרכז שורה, בדיקת כיוון כתיבה, או
+הוספת כותרת עליונה אוטומטית. כל תיקון עיצובי חוזר נכנס ל-\eng{CLS}
+ולא נשאר ``תיקון חד-פעמי'' במסמך.
+
+\subsection{לולאת תיקון רפטבילית}
+
+כאשר מתגלה באג ב-\eng{PDF} (טבלה זזה ימינה, עברית הפוכה):
+\begin{enumerate}[rightmargin=2em]
+  \item מציגים לסוכן את הבעיה --- \textbf{בלי} לתקן מיד.
+  \item מבקשים הסבר והצעת תיקון (בקרת איכות).
+  \item אם הבעיה בשפה טבעית --- מעדכנים \eng{Skill}.
+  \item אם הבעיה טכנית-עיצובית --- מעדכנים \eng{CLS}.
+  \item מריצים קומפילציה מחדש; אם עבר --- הבעיה נפתרה לכל המסמכים העתידיים.
+\end{enumerate}
+
+\begin{warningbox}
+תיקון נקודתי ב-\texttt{main.tex} במקום ב-\texttt{.cls} יגרום לבאג
+לחזור במסמך הבא. זהו ניגוד ישיר לרפטביליות.
+\end{warningbox}
+
+\agenttable{
+\caption{\eng{LaTeX}/סוכן מול \eng{Word} לרפטביליות}
+\label{tab:reproducibility}
+\begin{tabular}{@{}p{3.5cm}p{4.5cm}p{4.5cm}@{}}
+\toprule
+\textbf{מאפיין} & \textbf{LaTeX + CLS + Agent} & \textbf{Word + Agent} \\
+\midrule
+עקביות עיצוב & גבוהה (תבנית) & נמוכה \\
+גרסאות & \eng{Git diff} ברור & קובץ בינארי \\
+אוטומציה & קומפילציה מלאה & לעיתים ידני \\
+עברית מורכבת & דורש \eng{LuaLaTeX} & בעיות נפוצות \\
+\bottomrule
+\end{tabular}
+}
+
+\subsection{יישום ארגוני}
+
+בארגון, מומלץ:
+\begin{itemize}[rightmargin=2em]
+  \item תבנית \eng{CLS} אחת לכל סוג מסמך (דוח, הצעת מחיר, מאמר).
+  \item \eng{PRD} קצר לכל פרויקט --- מגדיר מבנה וקהל יעד.
+  \item סקריפט קומפילציה (\texttt{compile.ps1}) --- אותה פקודה לכל אחד.
+\end{itemize}
+
+\subsection{קשר למטלה 04}
+
+מטלה זו \emph{מחייבת} קובץ \texttt{agentic-ai-template.cls} אמיתי.
+ההערכה כוללת לא רק תוכן אלא גם את היכולת להפריד תוכן מעיצוב --- מיומנות
+מרכזית בהגדרת הנחיות לסוכן.
+
+\begin{insightbox}
+``הסוכן שלכם יהיה רפטבילי --- הוא לא כל פעם ייצר משהו אחר'' (תמלול
+ההרצאה). זהו עקרון ההנדסה שמאחורי מטלה 04.
+\end{insightbox}
